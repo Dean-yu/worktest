@@ -51,3 +51,15 @@ curl -X POST http://127.0.0.1:8000/api/v1/chat \
 ## 任务态 UI
 - Agent 路由时展示任务 ID、步骤进度、工具调用时间线
 - 提供“失败重试”按钮（当前基于最近一次 agent 消息触发重试请求）
+
+
+## Render 一键部署
+1. 将仓库推送到 GitHub。
+2. 在 Render 选择 **New + > Blueprint**。
+3. 选择该仓库，Render 会识别 `render.yaml` 与 `Dockerfile` 自动创建服务。
+4. 等待部署完成后，在 Render 控制台打开生成的公网 URL（形如 `https://<service>.onrender.com`）。
+
+### 启动后可访问
+- 首页提示：`/`
+- 前端页面：`/frontend/index.html`
+- 健康检查：`/health`
