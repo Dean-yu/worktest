@@ -1,5 +1,7 @@
+from uuid import uuid4
+
 from app.memory.session_memory import SessionMemory
-from app.models.schemas import ChatRequest, ChatResponse
+from app.models.schemas import ChatRequest, ChatResponse, TaskStep, ToolEvent
 from app.services.intent_classifier import IntentClassifier
 from app.tools.registry import ToolRegistry
 
@@ -49,9 +51,38 @@ class Orchestrator:
         plan = ["解析任务目标", "拆分执行步骤", "选择可用工具并执行", "汇总证据并输出结论"]
         tool_names = ", ".join(self.tools.list_tools())
         answer = f"[agent] 已进入任务模式。可用工具：{tool_names}。"
-        return self._respond(req, route="agent", answer=answer, plan=plan)
+        task_id = str(uuid4())
+        steps = [
+            TaskStep(name="解析任务目标", status="done"),
+            TaskStep(name="拆分执行步骤", status="running"),
+            TaskStep(name="选择可用工具并执行", status="pending"),
+            TaskStep(name="汇总证据并输出结论", status="pending"),
+        ]
+        timeline = [
+            ToolEvent(tool="planner", status="start", message="已开始规划"),
+            ToolEvent(tool="planner", status="success", message="规划完成，准备执行"),
+        ]
+        return self._respond(req, route="agent", answer=answer, plan=plan, task_id=task_id, steps=steps, timeline=timeline)
 
-    def _respond(self, req: ChatRequest, route: str, answer: str, plan: list[str] | None = None) -> ChatResponse:
+    def _respond(
+        self,
+        req: ChatRequest,
+        route: str,
+        answer: str,
+        plan: list[str] | None = None,
+        task_id: str | None = None,
+        steps: list[TaskStep] | None = None,
+        timeline: list[ToolEvent] | None = None,
+        can_retry: bool = False,
+    ) -> ChatResponse:
         self.memory.append(req.session_id, "user", req.message)
         self.memory.append(req.session_id, "assistant", answer)
-        return ChatResponse(route=route, answer=answer, plan=plan or [])
+        return ChatResponse(
+            route=route,
+            answer=answer,
+            plan=plan or [],
+            task_id=task_id,
+            steps=steps or [],
+            timeline=timeline or [],
+            can_retry=can_retry,
+        )

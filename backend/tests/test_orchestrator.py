@@ -34,3 +34,14 @@ def test_orchestrator_clarification_response() -> None:
     assert resp.needs_clarification is True
     assert resp.clarification_question is not None
     assert len(resp.clarification_options) >= 2
+
+
+def test_orchestrator_agent_task_payload() -> None:
+    orchestrator = Orchestrator()
+    req = ChatRequest(user_id="u", session_id="s4", message="请帮我执行发布任务")
+
+    resp = orchestrator.handle(req)
+
+    assert resp.task_id is not None
+    assert len(resp.steps) == 4
+    assert len(resp.timeline) >= 1
