@@ -1,0 +1,15 @@
+body { font-family: Arial, sans-serif; margin: 0; background: #f5f6f8; color: #222; }
+.app { max-width: 900px; margin: 0 auto; padding: 20px; display: grid; gap: 16px; }
+.chat-panel,.memory-panel,.clarification { background: white; border-radius: 8px; padding: 16px; box-shadow: 0 1px 6px rgba(0,0,0,.08); }
+.messages { min-height: 220px; max-height: 360px; overflow:auto; border:1px solid #ddd; padding:12px; border-radius:6px; background:#fafafa; }
+.msg { margin-bottom: 10px; }
+.msg .role { font-weight: bold; }
+.composer { display:flex; gap:8px; margin-top:10px; }
+.composer input { flex:1; padding:10px; }
+button { padding: 8px 12px; cursor:pointer; }
+.hidden { display:none; }
+.options { display:flex; gap:8px; flex-wrap:wrap; }
+.memory-head { display:flex; justify-content:space-between; align-items:center; }
+#memory-list { list-style:none; padding-left:0; }
+#memory-list li { border-bottom:1px solid #eee; padding:8px 0; }
+.small { font-size: 12px; color:#666; }

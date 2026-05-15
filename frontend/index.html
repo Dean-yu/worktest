@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI 对话系统</title>
+    <link rel="stylesheet" href="/frontend/styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header>
+        <h1>AI 对话交互系统</h1>
+        <p>支持 direct / agent 路由、补充信息引导、记忆管理</p>
+      </header>
+
+      <section class="chat-panel">
+        <div id="messages" class="messages"></div>
+        <form id="chat-form" class="composer">
+          <input id="message" placeholder="输入你的问题，例如：帮我看一下这个方案" required />
+          <button type="submit">发送</button>
+        </form>
+      </section>
+
+      <section id="clarification" class="clarification hidden">
+        <h3>需要补充信息</h3>
+        <p id="clarification-question"></p>
+        <div id="clarification-options" class="options"></div>
+      </section>
+
+      <section class="memory-panel">
+        <div class="memory-head">
+          <h3>Session 记忆</h3>
+          <button id="refresh-memory" type="button">刷新</button>
+        </div>
+        <ul id="memory-list"></ul>
+      </section>
+    </main>
+    <script src="/frontend/app.js" defer></script>
+  </body>
+</html>

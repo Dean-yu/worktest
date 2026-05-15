@@ -38,3 +38,11 @@ curl -X POST http://127.0.0.1:8000/api/v1/chat \
 
 ## 文档
 - 架构说明：`docs/architecture.md`
+
+
+## 前端页面
+启动后访问：`http://127.0.0.1:8000/frontend/index.html`
+
+- 可发送聊天请求并查看 direct/agent 路由效果
+- 若触发歧义判定，会显示补充信息推荐选项
+- 可在页面中查看/编辑/删除 session 记忆

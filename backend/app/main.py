@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes import router
@@ -19,3 +20,10 @@ app.include_router(router, prefix="/api/v1")
 @app.get("/health")
 def health() -> dict:
     return {"status": "ok"}
+
+
+app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
+
+@app.get("/")
+def home() -> dict:
+    return {"message": "Open /frontend/index.html"}
