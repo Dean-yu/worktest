@@ -23,3 +23,14 @@ def test_orchestrator_agent_path_returns_plan() -> None:
     assert resp.route == "agent"
     assert len(resp.plan) == 4
     assert "可用工具" in resp.answer
+
+
+def test_orchestrator_clarification_response() -> None:
+    orchestrator = Orchestrator()
+    req = ChatRequest(user_id="u", session_id="s3", message="帮我看一下这个")
+
+    resp = orchestrator.handle(req)
+
+    assert resp.needs_clarification is True
+    assert resp.clarification_question is not None
+    assert len(resp.clarification_options) >= 2
