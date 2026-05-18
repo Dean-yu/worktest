@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: ai-conversation-platform
+    runtime: docker
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /health

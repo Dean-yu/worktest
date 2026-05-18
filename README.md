@@ -1,2 +1,65 @@
 # worktest
-for work
+
+用于构建一个 Web 入口的 AI 对话交互系统（Direct Chat + Agent Task）。
+
+## 当前实现（v0.2 scaffold）
+- FastAPI 后端骨架
+- `/api/v1/chat` 统一入口
+- 前置意图识别与分发（支持 `auto`）
+- 歧义请求补充信息引导（推荐选项 + 自定义）
+- Session 短期记忆（默认记忆）
+- 记忆 CRUD API（支持用户增删改）
+- Agent 模式返回 planning 草案
+
+## 快速启动
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
+```
+
+## 示例请求
+```bash
+curl -X POST http://127.0.0.1:8000/api/v1/chat \
+  -H 'content-type: application/json' \
+  -d '{
+    "user_id":"u1",
+    "session_id":"s1",
+    "message":"帮我看一下这个方案"
+  }'
+```
+
+## 记忆管理 API
+- `GET /api/v1/memory/{session_id}`：查看当前 session 记忆
+- `PUT /api/v1/memory/{session_id}/{message_id}`：更新指定记忆
+- `DELETE /api/v1/memory/{session_id}/{message_id}`：删除指定记忆
+
+## 文档
+- 架构说明：`docs/architecture.md`
+
+
+## 前端页面
+启动后访问：`http://127.0.0.1:8000/frontend/index.html`
+
+- 可发送聊天请求并查看 direct/agent 路由效果
+- 若触发歧义判定，会显示补充信息推荐选项
+- 可在页面中查看/编辑/删除 session 记忆
+
+
+## 任务态 UI
+- Agent 路由时展示任务 ID、步骤进度、工具调用时间线
+- 提供“失败重试”按钮（当前基于最近一次 agent 消息触发重试请求）
+
+
+## Render 一键部署
+1. 将仓库推送到 GitHub。
+2. 在 Render 选择 **New + > Blueprint**。
+3. 选择该仓库，Render 会识别 `render.yaml` 与 `Dockerfile` 自动创建服务。
+4. 等待部署完成后，在 Render 控制台打开生成的公网 URL（形如 `https://<service>.onrender.com`）。
+
+### 启动后可访问
+- 首页提示：`/`
+- 前端页面：`/frontend/index.html`
+- 健康检查：`/health`
